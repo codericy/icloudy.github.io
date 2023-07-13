@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .countdown {
+      margin: 30px auto;
+      width: 600px;
+      height: 750px;
+      background: rgb(160, 74, 74);
+      color: #fff;
+      text-align: center;
+      padding-top: 20px;
+      font-size: 25px;
+      display: inline-block;
+    }
+
+    .next, .week {
+      margin-top: 10px;
+      font-size: 50px;
+    }
+
+    .title {
+      font-size: 90px;
+      margin-top: 50px;
+    }
+
+    .clock {
+      font-size: 50px;
+      margin-top: 50px;
+    }
+
+    .tips {
+      margin-top: 190px;
+      font-size: 50px;
+    }
+
+    #hour,
+    #minutes,
+    #scoud {
+      background: #312b2b;
+      padding: 5px;
+    }
+
+    p {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="countdown">
+    <p class="next"></p>
+    <p class="week"></p>
+    <p class="title">下班倒计时</p>
+    <p class="clock">
+      <span id="hour"></span>
+      <i>:</i>
+      <span id="minutes"></span>
+      <i>:</i>
+      <span id="scoud"></span>
+    </p>
+    <p class="tips"></p>
+  </div>
+</body>
+<script>
+  let next = document.querySelector('.next')
+  let tips = document.querySelector('.tips')
+  let week = document.querySelector('.week')
+  let year = 0
+  let getMonth = 0
+  let date1 = 0
+  // 调用声明的函数
+  getTime()
+  // 创建定时器，每1秒钟执行一次
+  setInterval(getTime, 1000)
+  // 声明函数
+  function getTime() {
+    let date = new Date()
+    year = date.getFullYear()
+    getMonth = date.getMonth() + 1
+    date1 = date.getDate()
+    let hour = date.getHours()
+    hour = hour < 10 ? '0' + hour : hour
+    let min = date.getMinutes()
+    min = min < 10 ? '0' + min : min
+    let sec = date.getSeconds()
+    sec = sec < 10 ? '0' + sec : sec
+    next.innerHTML = `今天是 ${year} 年${getMonth}月${date1}日`
+    tips.innerHTML = `现在是 ${hour}:${min}:${sec}`
+  }
+  // 获取元素
+  let hour = document.querySelector('#hour')
+  let minutes = document.querySelector('#minutes')
+  let scoud = document.querySelector('#scoud')
+  // 执行函数
+  time()
+  // 创建一个定时器
+  setInterval(time, 1000)
+  // 利用时间戳声明一个下班倒计时函数
+  function time() {
+    // 1.得到现在的时间戳
+    let now = +new Date()
+    // 2.得到指定时间的时间戳
+    let last = +new Date(`${year}-${getMonth}-${date1} 18:00:00`)
+    // 3.（计算剩余的毫秒数）/ 1000 得到剩余的秒数
+    let count = (last - now) / 1000
+    // 4.转换为时分秒
+    let h = parseInt(count / 60 / 60 % 24);  //时
+    h = h < 10 ? '0' + h : h;
+    let m = parseInt(count / 60 % 60); //分
+    m = m < 10 ? '0' + m : m;
+    let s = parseInt(count % 60);  //秒
+    s = s < 10 ? '0' + s : s;
+    hour.innerHTML = h
+    minutes.innerHTML = m
+    scoud.innerHTML = s
+  }
+  getWeek()
+  function getWeek() {
+    var a = new Array("日", "一", "二", "三", "四", "五", "六");  
+    var weekDay = new Date().getDay();
+    week.innerHTML = `星期${a[weekDay]}`
+  }
+
+</script>
+
+</html>
